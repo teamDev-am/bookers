@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import styles from "@/styles/BookIndex.module.scss";
+//  @/って書くとsrc/という意味になる
 
 export default function Index() {
   const [books, setBooks] = useState([]);
@@ -16,7 +18,7 @@ export default function Index() {
         <h1>Books/index</h1>
         {books.map((book: Book, index) => {
           return (
-            <div key={index}>
+            <div className={styles.book} key={index}>
               {/* 一番上の要素にkeyを入れる */}
               {book.title}
               {book.body}
