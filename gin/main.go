@@ -24,6 +24,7 @@ func main() {
 
 	router.POST("/books", models.CreateBook(client))
 	router.PATCH("/books/:id", models.UpdateBook(client))
+	router.DELETE("/books/:id", models.DestroyBook(client))
 
 	router.Run()
 }

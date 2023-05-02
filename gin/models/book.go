@@ -46,3 +46,15 @@ func UpdateBook(client *ent.Client) gin.HandlerFunc {
 		}
 	}
 }
+
+func DestroyBook(client *ent.Client) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx := context.Background()
+		err := client.Book.DeleteOneID(BookId(c)).Exec(ctx)
+		if err == nil {
+			log.Println("book was deleted")
+		} else {
+			log.Fatal(err)
+		}
+	}
+}
