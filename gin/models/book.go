@@ -71,3 +71,16 @@ func GetBooks(client *ent.Client) gin.HandlerFunc {
 		}
 	}
 }
+
+func GetBook(client *ent.Client) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx := context.Background()
+		book, err := client.Book.Get(ctx, BookId(c))
+		if err == nil {
+			log.Println("got book: ", book)
+			c.JSON(200, book)
+		} else {
+			c.JSON(400, gin.H{"message": err.Error()})
+		}
+	}
+}
