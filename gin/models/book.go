@@ -58,3 +58,16 @@ func DestroyBook(client *ent.Client) gin.HandlerFunc {
 		}
 	}
 }
+
+func GetBooks(client *ent.Client) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx := context.Background()
+		books, err := client.Book.Query().All(ctx)
+		if err == nil {
+			log.Println("got books")
+			c.JSON(200, books)
+		} else {
+			c.JSON(400, gin.H{"message": err.Error()})
+		}
+	}
+}
