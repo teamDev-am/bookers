@@ -1,13 +1,30 @@
 services:
-  api:
-    build: ./api
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./api:/app
   front:
     build: ./front
     ports:
-      - "3001:3000"
+      - "3000:3000"
     volumes:
       - ./front:/app
+  gin:
+    build: ./gin
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./gin:/app
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    platform: linux/x86_64
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+    command: ["mysqld", "--innodb_use_native_aio=0"] # 必須ではないがエラー防止
