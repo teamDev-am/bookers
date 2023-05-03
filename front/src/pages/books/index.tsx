@@ -8,14 +8,14 @@ export default function Index() {
   const [books, setBooks] = useState<Book[]>([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/books").then((res) => {
+    axios.get("http://localhost:8080/books").then((res) => {
       setBooks(res.data);
     });
   }, []);
 
   const onClickBookDelete = async (bookId: number) => {
     await axios
-      .delete(`http://localhost:3000/books/${bookId}`)
+      .delete(`http://localhost:8080/books/${bookId}`)
       .then(() => {
         setBooks(books.filter((book: Book) => book.id !== bookId));
       })
