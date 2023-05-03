@@ -13,14 +13,14 @@ export default function Index() {
     });
   }, []);
 
-  const onClickBookDelete = async (book_id: number) => {
+  const onClickBookDelete = async (bookId: number) => {
     await axios
-      .delete(`http://localhost:3000/books/${book_id}`)
+      .delete(`http://localhost:3000/books/${bookId}`)
       .then(() => {
-        setBooks(books.filter((book: Book) => book.id !== book_id));
+        setBooks(books.filter((book: Book) => book.id !== bookId));
       })
       .catch(() => {
-        console.log(book_id);
+        console.log(bookId);
       });
   };
 
