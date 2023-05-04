@@ -1,6 +1,6 @@
 import axios from "axios";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const BookEdit = () => {
@@ -13,11 +13,14 @@ const BookEdit = () => {
       setBook(res.data);
     });
   }, [bookId]);
-  
+
   const { register, handleSubmit } = useForm<Book>();
 
-  const onSubmit: SubmitHandler<Book> = async () => {
-    await axios.patch(`http://localhost:8080/books`).then(() => {});
+  const onSubmit: SubmitHandler<Book> = async (data) => {
+    await axios
+      .patch(`http://localhost:8080/books/${bookId}`, data)
+      .then((res) => {});
+    Router.push(`/books/${bookId}`);
   };
 
   return (
@@ -31,6 +34,9 @@ const BookEdit = () => {
         <div>
           <label>body</label>
           <input {...register("body")} defaultValue={book.body} />
+        </div>
+        <div>
+          <input type="submit" />
         </div>
       </form>
     </>
