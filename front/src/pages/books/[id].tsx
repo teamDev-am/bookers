@@ -12,7 +12,6 @@ export const BookDetail = () => {
     //リロードしたらクエリがなくなるからbookIdが使えないので、そのときは関数を走らせない。
     axios.get(`http://localhost:8080/books/${bookId}`).then((res) => {
       setBook(res.data);
-      console.log(res.data);
     });
   }, [bookId]);
 
