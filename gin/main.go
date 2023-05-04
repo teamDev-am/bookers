@@ -4,6 +4,7 @@ import (
 	"api/models"
 	"api/ent"
 	"context"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
@@ -11,6 +12,7 @@ import (
 
 func main() {
 	router := gin.Default()
+	router.Use(cors.Default()) //全てのオリジンを許可
 	client, err := ent.Open("mysql", "root:root@tcp(db:3306)/mysql?parseTime=True")
 	if err != nil {
 		log.Fatalf("failed opening connection to mysql: %v", err)
