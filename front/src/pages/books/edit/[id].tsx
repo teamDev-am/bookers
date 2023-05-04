@@ -30,11 +30,17 @@ const BookEdit = () => {
         <div>
           <label>title</label>
           <br />
-          <input {...register("title")} defaultValue={book?.title} />
+          <input
+            {...register("title", { required: "titleが入力されていません" })}
+            defaultValue={book?.title}
+          />
         </div>
         <div>
           <label>body</label>
-          <input {...register("body")} defaultValue={book?.body} />
+          <input
+            {...register("body", { required: "bodyが入力されていません" })}
+            defaultValue={book?.body}
+          />
         </div>
         <div>
           <input type="submit" />
