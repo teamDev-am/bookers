@@ -11,7 +11,11 @@ export default function Index() {
 
   const router = useRouter();
 
-  const { register, handleSubmit } = useForm<Book>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Book>();
 
   const onSubmit: SubmitHandler<Book> = async (data) => {
     await axios.post(`http://localhost:8080/books`, data).then((res) => {
@@ -56,11 +60,21 @@ export default function Index() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label>title</label>
-            <input {...register("title")} />
+            <input
+              {...register("title", {
+                required: "titleが入力必須されていません"
+              })}
+            />
+            {errors.title && <p>{errors.title.message}</p>}
           </div>
           <div>
             <label>body</label>
-            <input {...register("body")} />
+            <input
+              {...register("body", {
+                required: "bodyが入力されていません" 
+              })}
+            />
+            {errors.body && <p>{errors.body.message}</p>}
           </div>
           <div>
             <button type="submit">create book</button>

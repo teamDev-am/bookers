@@ -29,6 +29,7 @@ const BookEdit = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label>title</label>
+          <br />
           <input {...register("title")} defaultValue={book?.title} />
         </div>
         <div>
