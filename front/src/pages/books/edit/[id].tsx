@@ -4,25 +4,17 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const BookEdit = () => {
-  // const bookId = useRouter().query.id;
-  const router = useRouter();
-  const bookId = router.query.id;
-
+  const bookId = useRouter().query.id;
   const [book, setBook] = useState<Book>({ id: "", title: "", body: "" });
 
   useEffect(() => {
-    // if (!bookId) return;
-    //リロードしたらクエリがなくなるからbookIdが使えないので、そのときは関数を走らせない。
+    if (!bookId) return;
     axios.get(`http://localhost:8080/books/${bookId}`).then((res) => {
-      console.log(book);
-      setBook({ id: "dfvdfv", title: "vgtgtuj7ijfdv", body: "vdfvd" });
-      console.log(book);
+      setBook(res.data);
     });
   }, [bookId]);
-
-  const { register, handleSubmit } = useForm<Book>({
-    defaultValues: { title: book.title, body: book.body },
-  });
+  
+  const { register, handleSubmit } = useForm<Book>();
 
   const onSubmit: SubmitHandler<Book> = async () => {
     await axios.patch(`http://localhost:8080/books`).then(() => {});
@@ -31,16 +23,14 @@ const BookEdit = () => {
   return (
     <>
       <h1>Edit</h1>
-      {book.title}
-
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label>title</label>
-          <input {...register("title")} />
+          <input {...register("title")} defaultValue={book.title} />
         </div>
         <div>
           <label>body</label>
-          <input {...register("body")} />
+          <input {...register("body")} defaultValue={book.body} />
         </div>
       </form>
     </>
