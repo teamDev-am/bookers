@@ -10,9 +10,8 @@ export const BookDetail = () => {
   useEffect(() => {
     if (!bookId) return;
     //リロードしたらクエリがなくなるからbookIdが使えないので、そのときは関数を走らせない。
-    axios.get(`http://localhost:3000/books/${bookId}`).then((res) => {
+    axios.get(`http://localhost:8080/books/${bookId}`).then((res) => {
       setBook(res.data);
-      console.log(res.data);
     });
   }, [bookId]);
 
