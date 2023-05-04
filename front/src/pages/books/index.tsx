@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styles from "@/styles/BookIndex.module.scss";
-import Link from "next/link";
 //  @/って書くとsrc/という意味になる
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { SubmitHandler, useForm } from "react-hook-form";
 

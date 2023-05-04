@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 const BookEdit = () => {
   const bookId = useRouter().query.id;
-  const [book, setBook] = useState<Book>({ id: "", title: "", body: "" });
+  const [book, setBook] = useState<Book>();
 
   useEffect(() => {
     if (!bookId) return;
@@ -29,11 +29,11 @@ const BookEdit = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label>title</label>
-          <input {...register("title")} defaultValue={book.title} />
+          <input {...register("title")} defaultValue={book?.title} />
         </div>
         <div>
           <label>body</label>
-          <input {...register("body")} defaultValue={book.body} />
+          <input {...register("body")} defaultValue={book?.body} />
         </div>
         <div>
           <input type="submit" />
