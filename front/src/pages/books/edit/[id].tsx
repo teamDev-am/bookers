@@ -14,7 +14,11 @@ const BookEdit = () => {
     });
   }, [bookId]);
 
-  const { register, handleSubmit } = useForm<Book>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Book>();
 
   const onSubmit: SubmitHandler<Book> = async (data) => {
     await axios
@@ -34,6 +38,7 @@ const BookEdit = () => {
             {...register("title", { required: "titleが入力されていません" })}
             defaultValue={book?.title}
           />
+          {errors.title && <p>{errors.title.message}</p>}
         </div>
         <div>
           <label>body</label>
@@ -41,6 +46,7 @@ const BookEdit = () => {
             {...register("body", { required: "bodyが入力されていません" })}
             defaultValue={book?.body}
           />
+          {errors.body && <p>{errors.body.message}</p>}
         </div>
         <div>
           <input type="submit" />
