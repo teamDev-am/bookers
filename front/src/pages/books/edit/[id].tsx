@@ -3,28 +3,41 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+interface BookFormData {
+  title: string;
+  body: string;
+}
+
 const BookEdit = () => {
   const bookId = useRouter().query.id;
-  const [book, setBook] = useState<Book>();
-
-  useEffect(() => {
-    if (!bookId) return;
-    axios.get(`http://localhost:8080/books/${bookId}`).then((res) => {
-      setBook(res.data);
-    });
-  }, [bookId]);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Book>();
+    setValue,
+  } = useForm<BookFormData>();
+  const [book, setBook] = useState<Book>();
 
-  const onSubmit: SubmitHandler<Book> = async (data) => {
+  useEffect(() => {
+    if (!bookId) return;
+
+    axios
+      .get<Book>(`http://localhost:8080/books/${bookId}`)
+      .then(({ data }) => {
+        setBook(data);
+        // データをセットする際に、react-hook-form の setValue メソッドを使用して、デフォルト値をセットします
+        setValue("title", data.title);
+        setValue("body", data.body);
+      });
+  }, [bookId]);
+
+  const onSubmit: SubmitHandler<BookFormData> = async (data) => {
     await axios
       .patch(`http://localhost:8080/books/${bookId}`, data)
-      .then((res) => {});
-    Router.push(`/books/${bookId}`);
+      .then(() => {
+        Router.push(`/books/${bookId}`);
+      });
   };
 
   return (
@@ -36,15 +49,14 @@ const BookEdit = () => {
           <br />
           <input
             {...register("title", { required: "titleが入力されていません" })}
-            defaultValue={book?.title}
           />
           {errors.title && <p>{errors.title.message}</p>}
         </div>
         <div>
           <label>body</label>
-          <input
+          <br />
+          <textarea
             {...register("body", { required: "bodyが入力されていません" })}
-            defaultValue={book?.body}
           />
           {errors.body && <p>{errors.body.message}</p>}
         </div>
@@ -55,4 +67,5 @@ const BookEdit = () => {
     </>
   );
 };
+
 export default BookEdit;
