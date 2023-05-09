@@ -28,7 +28,7 @@ func main() {
 	router.PATCH("/books/:id", models.UpdateBook(client))
 	router.DELETE("/books/:id", models.DestroyBook(client))
 	router.GET("/books", models.GetBooks(client))
-	router.GET("books/:id", models.GetBook(client))
+	router.GET("/books/:id", models.GetBook(client))
 
 	router.Run()
 }
